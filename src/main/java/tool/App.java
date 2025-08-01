@@ -26,6 +26,7 @@ public class App {
 		// 보안 강화: 비밀번호 미입력 시 숨김 모드로 입력
 		if (password == null) {
 			password = ConsoleUtil.readPassword();
+			// TODO 비밀번호 재시도 횟수
 		}
 
 		try (Connection conn = DBConnectionManager.connect(driver, url, username, password)) {

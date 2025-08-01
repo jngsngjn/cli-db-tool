@@ -1,15 +1,17 @@
 package tool.cli;
 
+import java.io.IOException;
 import java.sql.Connection;
 
 import org.jline.reader.EndOfFileException;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
+import org.jline.terminal.Terminal;
+import org.jline.terminal.TerminalBuilder;
 
 import tool.db.QueryExecutor;
 
-// TODO 한글 못 읽는 문제..
 public class CliRunner {
 
 	private final QueryExecutor queryExecutor;
@@ -18,8 +20,14 @@ public class CliRunner {
 		this.queryExecutor = new QueryExecutor(conn);
 	}
 
-	public void start() {
-		LineReader reader = LineReaderBuilder.builder().build();
+	public void start() throws IOException {
+		Terminal terminal = TerminalBuilder.builder()
+			.system(true)
+			.build();
+
+		LineReader reader = LineReaderBuilder.builder()
+			.terminal(terminal)
+			.build();
 
 		while (true) {
 			String sql;
@@ -37,6 +45,26 @@ public class CliRunner {
 
 			if (sql.equalsIgnoreCase("exit")) {
 				break;
+			}
+
+			if (sql.equalsIgnoreCase("clear")) {
+
+			}
+
+			if (sql.equalsIgnoreCase("help")) {
+
+			}
+
+			if (sql.equalsIgnoreCase("history")) {
+
+			}
+
+			if (sql.equalsIgnoreCase("show tables")) {
+
+			}
+
+			if (sql.equalsIgnoreCase("file")) {
+
 			}
 
 			queryExecutor.execute(sql);
