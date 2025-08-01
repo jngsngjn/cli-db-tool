@@ -125,12 +125,16 @@ public class CliRunner {
 	private boolean confirmDangerousQuery(String sql, LineReader reader) {
 		String trimmed = sql.trim().toLowerCase();
 
-		// TODO WHERE 없는 UPDATE
-
 		// WHERE 없는 DELETE 감지
 		if (trimmed.startsWith("delete") && !trimmed.contains("where")) {
 			System.out.println("WARNING: This DELETE has no WHERE clause. It will delete ALL rows.");
 		}
+
+		// WHERE 없는 UPDATE 감지
+		else if (trimmed.startsWith("update") && !trimmed.contains("where")) {
+			System.out.println("WARNING: This UPDATE has no WHERE clause. It will update ALL rows.");
+		}
+
 		// DROP TABLE 감지
 		else if (trimmed.startsWith("drop table")) {
 			System.out.println("WARNING: This will DROP a table.");
