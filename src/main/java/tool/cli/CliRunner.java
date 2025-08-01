@@ -14,12 +14,15 @@ import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
 import tool.db.QueryExecutor;
+import tool.util.SqlCompleter;
 
 public class CliRunner {
 
+	private final Connection conn;
 	private final QueryExecutor queryExecutor;
 
 	public CliRunner(Connection conn) {
+		this.conn = conn;
 		this.queryExecutor = new QueryExecutor(conn);
 	}
 
@@ -30,6 +33,7 @@ public class CliRunner {
 
 		LineReader reader = LineReaderBuilder.builder()
 			.terminal(terminal)
+			.completer(new SqlCompleter(conn))
 			.build();
 
 		printUsage();
@@ -91,7 +95,11 @@ public class CliRunner {
 				continue;
 			}
 
-			queryExecutor.execute(input);
+			if (confirmDangerousQuery(input, reader)) {
+				queryExecutor.execute(input);
+			} else {
+				System.out.println("Query cancelled.");
+			}
 		}
 	}
 
@@ -112,5 +120,26 @@ public class CliRunner {
 		System.out.println(" Shortcuts:");
 		System.out.println("  Ctrl+D       - Exit the program");
 		System.out.println("====================================");
+	}
+
+	private boolean confirmDangerousQuery(String sql, LineReader reader) {
+		String trimmed = sql.trim().toLowerCase();
+
+		// TODO WHERE 없는 UPDATE
+
+		// WHERE 없는 DELETE 감지
+		if (trimmed.startsWith("delete") && !trimmed.contains("where")) {
+			System.out.println("WARNING: This DELETE has no WHERE clause. It will delete ALL rows.");
+		}
+		// DROP TABLE 감지
+		else if (trimmed.startsWith("drop table")) {
+			System.out.println("WARNING: This will DROP a table.");
+		} else {
+			return true; // 위험하지 않은 쿼리는 확인 없이 바로 실행
+		}
+
+		// 사용자 확인
+		String answer = reader.readLine("Are you sure? (yes/no): ").trim().toLowerCase();
+		return answer.equals("yes") || answer.equals("y");
 	}
 }
