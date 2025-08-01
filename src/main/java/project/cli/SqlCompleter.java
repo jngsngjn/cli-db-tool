@@ -1,4 +1,4 @@
-package tool.util;
+package project.cli;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

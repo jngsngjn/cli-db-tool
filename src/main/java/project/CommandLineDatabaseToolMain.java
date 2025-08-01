@@ -1,16 +1,16 @@
-package tool;
+package project;
 
-import static tool.util.PrintUtil.*;
+import static project.util.PrintUtil.*;
 
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
-import tool.cli.CliRunner;
-import tool.db.DBConnectionManager;
-import tool.util.ConsoleUtil;
+import project.cli.CliRunner;
+import project.database.DBConnectionManager;
+import project.util.ConsoleUtil;
 
-public class App {
+public class CommandLineDatabaseToolMain {
 	public static void main(String[] args) {
 		Map<String, String> options = parseArgs(args);
 

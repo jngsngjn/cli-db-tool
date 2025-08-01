@@ -1,4 +1,4 @@
-package tool.code;
+package project.code;
 
 public enum Command {
 

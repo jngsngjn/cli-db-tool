@@ -1,9 +1,12 @@
-package tool.util;
+package project.util;
 
 import java.io.Console;
 import java.util.Scanner;
 
-public class ConsoleUtil {
+public final class ConsoleUtil {
+
+	private ConsoleUtil() {
+	}
 
 	private static final String prompt = "Enter password: ";
 

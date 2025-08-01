@@ -1,4 +1,6 @@
-package tool.db;
+package project.database;
+
+import static project.util.PrintUtil.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -8,8 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
-
-import tool.util.ResultPrinter;
 
 public class QueryExecutor {
 
@@ -26,7 +26,7 @@ public class QueryExecutor {
 
 			if (isResultSet) {
 				try (ResultSet rs = stmt.getResultSet()) {
-					ResultPrinter.printResultSet(rs);
+					printResultSet(rs);
 				}
 			} else {
 				int updated = stmt.getUpdateCount();

@@ -1,6 +1,6 @@
-package tool.cli;
+package project.cli;
 
-import static tool.util.PrintUtil.*;
+import static project.util.PrintUtil.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,8 +15,7 @@ import org.jline.reader.UserInterruptException;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
-import tool.db.QueryExecutor;
-import tool.util.SqlCompleter;
+import project.database.QueryExecutor;
 
 public class CliRunner {
 
