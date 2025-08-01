@@ -1,5 +1,7 @@
 package tool.cli;
 
+import static tool.util.PrintUtil.*;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,25 +21,27 @@ import tool.util.SqlCompleter;
 public class CliRunner {
 
 	private final Connection conn;
+	private final LineReader reader;
 	private final QueryExecutor queryExecutor;
 
-	public CliRunner(Connection conn) {
+	public CliRunner(Connection conn) throws IOException {
 		this.conn = conn;
+		this.reader = createLineReader();
 		this.queryExecutor = new QueryExecutor(conn);
 	}
 
-	public void start() throws IOException {
+	private LineReader createLineReader() throws IOException {
 		Terminal terminal = TerminalBuilder.builder()
 			.system(true)
 			.build();
 
-		LineReader reader = LineReaderBuilder.builder()
+		return LineReaderBuilder.builder()
 			.terminal(terminal)
 			.completer(new SqlCompleter(conn))
 			.build();
+	}
 
-		printUsage();
-
+	public void start() {
 		while (true) {
 			String input;
 			try {
@@ -101,25 +105,6 @@ public class CliRunner {
 				System.out.println("Query cancelled.");
 			}
 		}
-	}
-
-	private static void printGoodBye() {
-		System.out.println("Exiting Program... Goodbye");
-	}
-
-	private void printUsage() {
-		System.out.println("====================================");
-		System.out.println(" Welcome to SQL CLI ");
-		System.out.println(" Commands:");
-		System.out.println("  clear        - Clear the screen");
-		System.out.println("  exit         - Exit the program");
-		System.out.println("  help         - Show this help message");
-		System.out.println("  file         - Execute query from a file");
-		System.out.println("  toggle autocommit - Toggle autocommit. Default is ON");
-		System.out.println();
-		System.out.println(" Shortcuts:");
-		System.out.println("  Ctrl+D       - Exit the program");
-		System.out.println("====================================");
 	}
 
 	private boolean confirmDangerousQuery(String sql, LineReader reader) {

@@ -1,6 +1,8 @@
 package tool;
 
-import java.sql.*;
+import static tool.util.PrintUtil.*;
+
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ public class App {
 
 		try (Connection conn = DBConnectionManager.connect(driver, url, username, password)) {
 			System.out.println("Connected to database successfully!");
+			printUsage();
 			new CliRunner(conn).start();
 		} catch (Exception e) {
 			System.err.println("Connection failed: " + e.getMessage());
