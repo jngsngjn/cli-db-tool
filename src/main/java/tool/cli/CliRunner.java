@@ -9,6 +9,7 @@ import org.jline.reader.UserInterruptException;
 
 import tool.db.QueryExecutor;
 
+// TODO 한글 못 읽는 문제..
 public class CliRunner {
 
 	private final QueryExecutor queryExecutor;

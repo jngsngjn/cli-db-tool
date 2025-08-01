@@ -5,7 +5,9 @@ import java.util.Scanner;
 
 public class ConsoleUtil {
 
-	public static String readPassword(String prompt) {
+	private static final String prompt = "Enter password: ";
+
+	public static String readPassword() {
 		Console console = System.console();
 
 		if (console != null) {
