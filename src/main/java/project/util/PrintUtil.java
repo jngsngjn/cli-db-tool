@@ -46,7 +46,9 @@ public final class PrintUtil {
 			String[] row = new String[columnCount];
 			for (int i = 1; i <= columnCount; i++) {
 				String value = resultSet.getString(i);
-				if (value == null) value = "NULL";
+				if (value == null) {
+					value = "NULL";
+				}
 				row[i - 1] = value;
 				columnWidths[i - 1] = Math.max(columnWidths[i - 1], getDisplayWidth(value));
 			}

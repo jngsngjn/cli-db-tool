@@ -11,6 +11,7 @@ import org.jline.reader.Completer;
 import org.jline.reader.LineReader;
 import org.jline.reader.ParsedLine;
 
+// TODO 테스트
 public class SqlCompleter implements Completer {
 
 	private final Connection connection;

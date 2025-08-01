@@ -25,8 +25,8 @@ public class QueryExecutor {
 			boolean isResultSet = statement.execute(sql);
 
 			if (isResultSet) {
-				try (ResultSet rs = statement.getResultSet()) {
-					printResultSet(rs);
+				try (ResultSet resultSet = statement.getResultSet()) {
+					printResultSet(resultSet);
 				}
 			} else {
 				int updated = statement.getUpdateCount();
