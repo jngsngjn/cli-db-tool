@@ -21,15 +21,15 @@ public class QueryExecutor {
 	}
 
 	public void execute(String sql) {
-		try (Statement stmt = connection.createStatement()) {
-			boolean isResultSet = stmt.execute(sql);
+		try (Statement statement = connection.createStatement()) {
+			boolean isResultSet = statement.execute(sql);
 
 			if (isResultSet) {
-				try (ResultSet rs = stmt.getResultSet()) {
+				try (ResultSet rs = statement.getResultSet()) {
 					printResultSet(rs);
 				}
 			} else {
-				int updated = stmt.getUpdateCount();
+				int updated = statement.getUpdateCount();
 				System.out.println("Query OK, " + updated + " row(s) affected.");
 			}
 		} catch (SQLException e) {
@@ -65,7 +65,7 @@ public class QueryExecutor {
 			}
 
 			// If there's a leftover query (no trailing semicolon), execute it
-			if (queryBuffer.length() > 0) {
+			if (!queryBuffer.isEmpty()) {
 				String query = queryBuffer.toString().trim();
 				if (!query.isEmpty()) {
 					System.out.println("Executing: " + query);

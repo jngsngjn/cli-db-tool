@@ -31,8 +31,8 @@ public final class PrintUtil {
 		System.out.println("Exiting Program... Goodbye");
 	}
 
-	public static void printResultSet(ResultSet rs) throws SQLException {
-		ResultSetMetaData meta = rs.getMetaData();
+	public static void printResultSet(ResultSet resultSet) throws SQLException {
+		ResultSetMetaData meta = resultSet.getMetaData();
 		int columnCount = meta.getColumnCount();
 
 		// 1. 컬럼 폭 계산
@@ -42,10 +42,10 @@ public final class PrintUtil {
 		}
 
 		List<String[]> rows = new ArrayList<>();
-		while (rs.next()) {
+		while (resultSet.next()) {
 			String[] row = new String[columnCount];
 			for (int i = 1; i <= columnCount; i++) {
-				String value = rs.getString(i);
+				String value = resultSet.getString(i);
 				if (value == null) value = "NULL";
 				row[i - 1] = value;
 				columnWidths[i - 1] = Math.max(columnWidths[i - 1], getDisplayWidth(value));
@@ -70,17 +70,17 @@ public final class PrintUtil {
 	}
 
 	// 한글 폭 계산
-	private static int getDisplayWidth(String s) {
+	private static int getDisplayWidth(String str) {
 		int width = 0;
-		for (char c : s.toCharArray()) {
+		for (char c : str.toCharArray()) {
 			width += (c > 127) ? 2 : 1; // 한글은 2칸
 		}
 		return width;
 	}
 
 	// 오른쪽 패딩
-	private static String padRight(String s, int width) {
-		int padSize = width - getDisplayWidth(s);
-		return s + " ".repeat(Math.max(0, padSize));
+	private static String padRight(String str, int width) {
+		int padSize = width - getDisplayWidth(str);
+		return str + " ".repeat(Math.max(0, padSize));
 	}
 }

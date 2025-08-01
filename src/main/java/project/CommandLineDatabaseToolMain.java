@@ -1,12 +1,12 @@
 package project;
 
+import static project.util.CommonUtil.*;
 import static project.util.PrintUtil.*;
 
 import java.sql.Connection;
-import java.util.HashMap;
 import java.util.Map;
 
-import project.cli.CliRunner;
+import project.cli.CommandLineProgram;
 import project.database.DBConnectionManager;
 import project.util.ConsoleUtil;
 
@@ -25,29 +25,19 @@ public class CommandLineDatabaseToolMain {
 			return;
 		}
 
-		// 보안 강화: 비밀번호 미입력 시 숨김 모드로 입력
+		// 비밀번호 미입력 시 숨김 모드로 입력
 		if (password == null) {
 			password = ConsoleUtil.readPassword();
 		}
 
-		try (Connection conn = DBConnectionManager.connect(driver, url, username, password)) {
+		try (Connection connection = DBConnectionManager.connect(driver, url, username, password)) {
 			System.out.println("Connected to database successfully!");
 			printUsage();
-			new CliRunner(conn).start();
+			new CommandLineProgram(connection).start();
 		} catch (Exception e) {
 			System.err.println("Connection failed: " + e.getMessage());
-			e.printStackTrace();
+		} finally {
+			printGoodBye();
 		}
-	}
-
-	private static Map<String, String> parseArgs(String[] args) {
-		Map<String, String> map = new HashMap<>();
-		for (int i = 0; i < args.length; i++) {
-			if (args[i].startsWith("--") && i + 1 < args.length) {
-				map.put(args[i].substring(2), args[i + 1]);
-				i++;
-			}
-		}
-		return map;
 	}
 }

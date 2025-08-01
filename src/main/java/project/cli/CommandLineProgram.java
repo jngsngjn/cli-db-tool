@@ -17,16 +17,16 @@ import org.jline.terminal.TerminalBuilder;
 
 import project.database.QueryExecutor;
 
-public class CliRunner {
+public class CommandLineProgram {
 
-	private final Connection conn;
-	private final LineReader reader;
+	private final Connection connection;
+	private final LineReader lineReader;
 	private final QueryExecutor queryExecutor;
 
-	public CliRunner(Connection conn) throws IOException {
-		this.conn = conn;
-		this.reader = createLineReader();
-		this.queryExecutor = new QueryExecutor(conn);
+	public CommandLineProgram(Connection connection) throws IOException {
+		this.connection = connection;
+		this.lineReader = createLineReader();
+		this.queryExecutor = new QueryExecutor(connection);
 	}
 
 	private LineReader createLineReader() throws IOException {
@@ -36,7 +36,7 @@ public class CliRunner {
 
 		return LineReaderBuilder.builder()
 			.terminal(terminal)
-			.completer(new SqlCompleter(conn))
+			.completer(new SqlCompleter(connection))
 			.build();
 	}
 
@@ -44,20 +44,19 @@ public class CliRunner {
 		while (true) {
 			String input;
 			try {
-				input = reader.readLine("sql> ");
+				input = lineReader.readLine("sql> ");
 			} catch (UserInterruptException e) {
 				continue; // Ctrl+C 무시
 			} catch (EndOfFileException e) {
-				printGoodBye();
 				break; // Ctrl+D 종료
 			}
 
+			// TODO 리팩토링
 			if (input == null || input.trim().isEmpty()) {
 				continue;
 			}
 
 			if (input.equalsIgnoreCase("exit")) {
-				printGoodBye();
 				break;
 			}
 
@@ -72,9 +71,10 @@ public class CliRunner {
 				continue;
 			}
 
+			// TODO 테스트
 			if (input.equalsIgnoreCase("file")) {
 				System.out.println("Enter file path: ");
-				input = reader.readLine();
+				input = lineReader.readLine();
 				if (input == null || input.trim().isEmpty()) {
 					System.out.println("Empty file path..");
 					continue;
@@ -92,13 +92,14 @@ public class CliRunner {
 				continue;
 			}
 
+			// TODO 테스트
 			if (input.equalsIgnoreCase("toggle autocommit")) {
 				QueryExecutor.AUTO_COMMIT = !QueryExecutor.AUTO_COMMIT;
 				System.out.println("Autocommit is now " + (QueryExecutor.AUTO_COMMIT ? "ON" : "OFF"));
 				continue;
 			}
 
-			if (confirmDangerousQuery(input, reader)) {
+			if (confirmDangerousQuery(input)) {
 				queryExecutor.execute(input);
 			} else {
 				System.out.println("Query cancelled.");
@@ -106,7 +107,7 @@ public class CliRunner {
 		}
 	}
 
-	private boolean confirmDangerousQuery(String sql, LineReader reader) {
+	private boolean confirmDangerousQuery(String sql) {
 		String trimmed = sql.trim().toLowerCase();
 
 		// WHERE 없는 DELETE 감지
@@ -127,7 +128,7 @@ public class CliRunner {
 		}
 
 		// 사용자 확인
-		String answer = reader.readLine("Are you sure? (yes/no): ").trim().toLowerCase();
+		String answer = lineReader.readLine("Are you sure? (yes/no): ").trim().toLowerCase();
 		return answer.equals("yes") || answer.equals("y");
 	}
 }

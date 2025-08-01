@@ -1,7 +1,8 @@
 package project.database;
 
+import static java.sql.DriverManager.*;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 
 public class DBConnectionManager {
 
@@ -22,6 +23,6 @@ public class DBConnectionManager {
 			default:
 				throw new IllegalArgumentException("Unsupported driver: " + driver);
 		}
-		return DriverManager.getConnection(url, username, password);
+		return getConnection(url, username, password);
 	}
 }
