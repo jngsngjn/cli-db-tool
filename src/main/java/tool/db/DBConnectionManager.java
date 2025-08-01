@@ -1,0 +1,27 @@
+package tool.db;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+
+public class DBConnectionManager {
+
+	public static Connection connect(String driver, String url, String username, String password) throws Exception {
+		switch (driver.toLowerCase()) {
+			case "postgres":
+				Class.forName("org.postgresql.Driver");
+				break;
+			case "mysql":
+				Class.forName("com.mysql.cj.jdbc.Driver");
+				break;
+			case "oracle":
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+				break;
+			case "mssql":
+				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+				break;
+			default:
+				throw new IllegalArgumentException("Unsupported driver: " + driver);
+		}
+		return DriverManager.getConnection(url, username, password);
+	}
+}
