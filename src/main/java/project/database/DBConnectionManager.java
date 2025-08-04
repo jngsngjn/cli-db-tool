@@ -20,6 +20,12 @@ public class DBConnectionManager {
 			case "mssql":
 				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 				break;
+			case "mariadb":
+				Class.forName("org.mariadb.jdbc.Driver");
+				break;
+			case "db2":
+				Class.forName("com.ibm.db2.jcc.DB2Driver");
+				break;
 			default:
 				throw new IllegalArgumentException("Unsupported driver: " + driver);
 		}
