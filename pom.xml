@@ -66,6 +66,20 @@
             <version>12.6.1.jre11</version>
         </dependency>
 
+        <!-- MariaDB -->
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>3.3.3</version>
+        </dependency>
+
+        <!-- DB2 -->
+        <dependency>
+            <groupId>com.ibm.db2</groupId>
+            <artifactId>jcc</artifactId>
+            <version>11.5.9.0</version>
+        </dependency>
+
         <!-- Slf4j (로깅) -->
         <dependency>
             <groupId>org.slf4j</groupId>
