@@ -21,7 +21,7 @@ public class CommandLineDatabaseToolMain {
 
 		if (driver == null || url == null || username == null) {
 			System.out.println("Usage: --driver <driver> --url <jdbc-url> --username <username> [--password <password>]");
-			System.out.println("Supported drivers: postgres, mysql, oracle, mssql");
+			System.out.println("Supported drivers: oracle, mysql, postgres, mssql, mariadb, db2");
 			return;
 		}
 
