@@ -1,0 +1,5 @@
+CREATE TABLE TEST_TABLE
+(
+    id BIGINT PRIMARY KEY,
+    name VARCHAR (100)
+);
