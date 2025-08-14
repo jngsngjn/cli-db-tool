@@ -72,7 +72,6 @@ public class CommandLineService {
 				continue;
 			}
 
-			// TODO 테스트
 			if (input.equalsIgnoreCase("file")) {
 				System.out.println("Enter file path: ");
 				input = lineReader.readLine();
@@ -93,7 +92,6 @@ public class CommandLineService {
 				continue;
 			}
 
-			// TODO 테스트
 			if (input.equalsIgnoreCase("toggle autocommit")) {
 				QueryExecutor.AUTO_COMMIT = !QueryExecutor.AUTO_COMMIT;
 				System.out.println("Autocommit is now " + (QueryExecutor.AUTO_COMMIT ? "ON" : "OFF"));

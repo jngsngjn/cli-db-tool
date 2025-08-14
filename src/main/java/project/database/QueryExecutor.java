@@ -21,22 +21,29 @@ public class QueryExecutor {
 	}
 
 	public void execute(String sql) {
-		try (Statement statement = connection.createStatement()) {
-			boolean isResultSet = statement.execute(sql);
+		try {
+			// AUTO_COMMIT 값에 따라 JDBC Connection의 autoCommit 모드 설정
+			if (connection.getAutoCommit() != AUTO_COMMIT) {
+				connection.setAutoCommit(AUTO_COMMIT);
+			}
+			try (Statement statement = connection.createStatement()) {
+				boolean isResultSet = statement.execute(sql);
 
-			if (isResultSet) {
-				try (ResultSet resultSet = statement.getResultSet()) {
-					printResultSet(resultSet);
+				if (isResultSet) {
+					try (ResultSet resultSet = statement.getResultSet()) {
+						printResultSet(resultSet);
+					}
+				} else {
+					int updated = statement.getUpdateCount();
+					System.out.println("Query OK, " + updated + " row(s) affected.");
 				}
-			} else {
-				int updated = statement.getUpdateCount();
-				System.out.println("Query OK, " + updated + " row(s) affected.");
 			}
 		} catch (SQLException e) {
 			System.err.println("SQL Error: " + e.getMessage());
 		}
 	}
 
+	// TODO 위험한 쿼리 실행 방지해야 함
 	public void executeFile(Path filePath) {
 		try {
 			List<String> lines = Files.readAllLines(filePath);
