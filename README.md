@@ -1,6 +1,6 @@
 # SQL CLI – Multi‑database Command‑Line Client (Java)
 
-A lightweight, single‑JAR SQL client you can run from the terminal. It connects to **PostgreSQL**, **MySQL**, **Oracle**, and **Microsoft SQL Server**, gives you an interactive prompt with **auto‑completion**, prints results in a **pretty table** (with correct width for wide characters like Korean), and adds **safety prompts** for destructive statements.
+A lightweight, single‑JAR SQL client you can run from the terminal. It connects to **MySQL**, **Oracle**, **PostgreSQL**, **MariaDB**, **Microsoft SQL Server** and **db2** gives you an interactive prompt with **auto‑completion**, prints results in a **pretty table** (with correct width for wide characters like Korean), and adds **safety prompts** for destructive statements.
 
 > Built with Java 21, JLine 3, and the official JDBC drivers.
 
@@ -98,7 +98,7 @@ java -jar target/cli-db-tool-1.0-SNAPSHOT.jar \
 
 **CLI options**
 
-- `--driver` (**required**): one of `postgres`, `mysql`, `oracle`, `mssql`
+- `--driver` (**required**): one of `mysql`, `oracle`, `postgres`, `mssql`, `mariadb`, `db2`
 - `--url` (**required**): JDBC URL
 - `--username` (**required**)
 - `--password` (optional): if omitted you’ll be prompted securely
