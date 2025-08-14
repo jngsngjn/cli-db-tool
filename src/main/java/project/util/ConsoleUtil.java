@@ -3,6 +3,8 @@ package project.util;
 import java.io.Console;
 import java.util.Scanner;
 
+import org.jline.reader.EndOfFileException;
+
 public final class ConsoleUtil {
 
 	private ConsoleUtil() {
@@ -22,5 +24,19 @@ public final class ConsoleUtil {
 			Scanner scanner = new Scanner(System.in);
 			return scanner.nextLine();
 		}
+	}
+
+	/** 터미널 화면 지우기 (대부분의 ANSI 터미널에서 동작) */
+	public static void clearScreen() {
+		System.out.print("\033[H\033[2J");
+		System.out.flush();
+	}
+
+	/** 종료 처리: 필요 시 리소스 정리 후 System.exit 대신 루프 종료 유도 */
+	public static void safeExit() {
+		// 연결/리더 정리 필요 시 여기에 수행
+		// 예: closeQuietly(connection);
+		// 여기서는 단순히 루프 종료를 위해 예외 사용 없이 플로우 제어
+		throw new EndOfFileException(); // start()의 catch에서 깔끔히 종료
 	}
 }
