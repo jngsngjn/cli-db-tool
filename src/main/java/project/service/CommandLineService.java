@@ -1,4 +1,4 @@
-package project.cli;
+package project.service;
 
 import static project.util.PrintUtil.*;
 
@@ -15,15 +15,16 @@ import org.jline.reader.UserInterruptException;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 
+import project.cli.SqlCompleter;
 import project.database.QueryExecutor;
 
-public class CommandLineProgram {
+public class CommandLineService {
 
 	private final Connection connection;
 	private final LineReader lineReader;
 	private final QueryExecutor queryExecutor;
 
-	public CommandLineProgram(Connection connection) throws IOException {
+	public CommandLineService(Connection connection) throws IOException {
 		this.connection = connection;
 		this.lineReader = createLineReader();
 		this.queryExecutor = new QueryExecutor(connection);

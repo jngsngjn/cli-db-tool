@@ -6,8 +6,8 @@ import static project.util.PrintUtil.*;
 import java.sql.Connection;
 import java.util.Map;
 
-import project.cli.CommandLineProgram;
 import project.database.DBConnectionManager;
+import project.service.CommandLineService;
 import project.util.ConsoleUtil;
 
 public class CommandLineDatabaseToolMain {
@@ -33,7 +33,7 @@ public class CommandLineDatabaseToolMain {
 		try (Connection connection = DBConnectionManager.connect(driver, url, username, password)) {
 			System.out.println("Connected to database successfully!");
 			printUsage();
-			new CommandLineProgram(connection).start();
+			new CommandLineService(connection).start();
 		} catch (Exception e) {
 			System.err.println("Connection failed: " + e.getMessage());
 		} finally {
